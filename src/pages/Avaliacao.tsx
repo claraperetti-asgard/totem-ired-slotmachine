@@ -1,9 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { ArrowLeft, ArrowRight, Star } from "lucide-react";
-import { QRCodeSVG } from "qrcode.react";
 import LogoIred from "../assets/ired/logo-ired-branco.png";
+import QrCodeAvaliacao from "../assets/qrcode-avaliacao.jpeg";
 import { Fundo, Rodape } from "../components/Marca";
-import { LINK_AVALIACAO_GOOGLE } from "../config/avaliacao";
 
 const PASSOS = [
     "Aponte a câmera do celular",
@@ -68,16 +67,12 @@ export default function Avaliacao() {
                             ))}
                         </div>
 
-                        <div className="mt-8 rounded-[2rem] border-4 border-ired/15 bg-white p-6 shadow-[0_10px_30px_rgba(189,0,0,0.15)]">
-                            <QRCodeSVG
-                                value={LINK_AVALIACAO_GOOGLE}
-                                size={512}
-                                level="M"
-                                fgColor="#5c0000"
-                                bgColor="#ffffff"
-                                className="h-[22rem] w-[22rem]"
-                            />
-                        </div>
+                        {/* QR code enviado pela Ired; a moldura arredondada já vem na imagem */}
+                        <img
+                            src={QrCodeAvaliacao}
+                            alt="QR code para avaliar a Ired no Google"
+                            className="mt-8 h-[22rem] w-[22rem] object-contain drop-shadow-[0_10px_30px_rgba(189,0,0,0.15)]"
+                        />
 
                         <ol className="mt-10 flex w-full flex-col gap-4 text-left">
                             {PASSOS.map((passo, i) => (
