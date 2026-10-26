@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* ============================================================
+   MODO TOTEM
+   sem zoom por pinça, sem arrastar a tela para os lados e sem o
+   efeito de "puxar e soltar" nas bordas. Só a rolagem vertical
+   continua, que as telas de admin e sorteio precisam.
+   ============================================================ */
+/**
+ * Escala do totem.
+ *
+ * O layout foi desenhado para 1080x1920 e o totem passou a ser 720x1280
+ * — a mesma proporção 9:16, dois terços do tamanho. Em vez de reescrever
+ * cada medida, a base do rem acompanha a largura da tela: como o Tailwind
+ * mede tudo em rem (espaçamento, largura e tipografia), a tela inteira
+ * encolhe junto e a proporção se mantém.
+ *
+ * 1.4815vw = 16 / 1080 * 100, ou seja, 16px de base em 1080 de largura
+ * e 10,67px em 720. O teto de 16px evita que fique gigante num monitor
+ * grande durante o desenvolvimento.
+ */
+html {
+  font-size: clamp(8px, 1.4815vw, 16px);
+}
+
+html,
+body {
+  touch-action: pan-y;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* os sliders do painel precisam do arrasto horizontal: `none` entrega
+   o toque direto ao controle em vez de o navegador tentar rolar */
+.slot-range {
+  touch-action: none;
+}
+
+/* paleta Ired: o vermelho da marca é RGB 189, 0, 0 (#bd0000) e o
+   resto são tons dele para profundidade, sempre com o branco */
+@theme {
+  --color-ired: #bd0000;
+  --color-ired-light: #e01b1b;
+  --color-ired-dark: #8f0000;
+  --color-ired-deep: #5c0000;
+  --color-ired-night: #2e0000;
+
+  --font-sans: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: #bd0000;
+  font-family: var(--font-sans);
+}
+
+/* etiqueta inclinada do site (OFERTA TURBO, MAIS PEDIDO): fundo branco,
+   texto vermelho. Usada nas palavras de destaque dos títulos */
+.ired-tag {
+  display: inline-block;
+  padding: 0 0.3em;
+  background: #ffffff;
+  color: #bd0000;
+  transform: skewX(-10deg);
+  box-shadow: 0 0.35rem 1.4rem rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   SLIDERS DO PAINEL ADMIN
+   o `background` da trilha vem inline, de trackStyle()
+   ============================================================ */
+.slot-range {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 0.875rem;
+  border-radius: 999px;
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.slot-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #ffffff, #f1e6e6);
+  border: 3px solid #bd0000;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 0 14px 2px rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+.slot-range::-moz-range-thumb {
+  width: 2.375rem;
+  height: 2.375rem;
+  border-radius: 999px;
+  background: linear-gradient(to bottom, #ffffff, #f1e6e6);
+  border: 3px solid #bd0000;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.45),
+    0 0 14px 2px rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+}
+
+/* o Firefox pinta a trilha por conta própria — deixa o inline aparecer */
+.slot-range::-moz-range-track {
+  background: transparent;
+}
+
+/* ============================================================
+   TECLADO VIRTUAL DO FORMULÁRIO
+   sobrescreve o tema padrão do react-simple-keyboard
+   ============================================================ */
+/* o CSS do pacote é importado dentro do componente, então entra depois
+   deste arquivo no bundle. Os seletores abaixo levam a classe do tema
+   junto (.slot-keyboard.hg-theme-default) só para ganhar em
+   especificidade — sem isso o tema padrão volta por cima das cores
+   da marca. */
+.slot-keyboard.hg-theme-default {
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
+}
+
+.slot-keyboard.hg-theme-default .hg-row + .hg-row {
+  margin-top: 0.625rem;
+}
+
+.slot-keyboard.hg-theme-default .hg-button {
+  height: 4.25rem;
+  margin: 0 0.3125rem 0 0;
+  border-radius: 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 4px solid #d6c4c4;
+  background: #ffffff;
+  color: #bd0000;
+  font-size: 1.625rem;
+  font-weight: 700;
+  box-shadow: none;
+  transition:
+    background 0.12s,
+    transform 0.08s;
+}
+
+.slot-keyboard.hg-theme-default .hg-row .hg-button:not(:last-child) {
+  margin-right: 0.3125rem;
+}
+
+.slot-keyboard.hg-theme-default .hg-button:last-child {
+  margin-right: 0;
+}
+
+.slot-keyboard.hg-theme-default .hg-button:active,
+.slot-keyboard.hg-theme-default .hg-button.hg-activeButton {
+  background: #5c0000;
+  border-color: #5c0000;
+  border-bottom-color: #2e0000;
+  color: #ffffff;
+  transform: translateY(2px);
+}
+
+/* teclas de ação ficam com peso visual menor que as letras */
+.slot-keyboard.hg-theme-default .hg-button.hg-functionBtn {
+  background: #f6dede;
+  color: #8f0000;
+  font-size: 1.25rem;
+}
+
+/* versão compacta, usada no modal de login */
+.slot-keyboard-mini.hg-theme-default .hg-row + .hg-row {
+  margin-top: 0.375rem;
+}
+
+.slot-keyboard-mini.hg-theme-default .hg-button {
+  height: 3.5rem;
+  margin: 0 0.375rem 0 0;
+  border-radius: 0.75rem;
+  border-bottom-width: 3px;
+  font-size: 1.375rem;
+}
+
+.slot-keyboard-mini.hg-theme-default .hg-row .hg-button:not(:last-child) {
+  margin-right: 0.375rem;
+}
+
+.slot-keyboard-mini.hg-theme-default .hg-button.hg-functionBtn {
+  font-size: 0.9375rem;
+}
+
+/* luzes laterais/superiores do gabinete */
+@keyframes slot-glow {
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1.15);
+  }
+  50% {
+    opacity: 0.55;
+    filter: brightness(0.8);
+  }
+}
+
+/* reflexo diagonal que percorre o vidro dos rolos */
+@keyframes slot-shine {
+  0% {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  55%,
+  100% {
+    transform: translateX(520%) skewX(-18deg);
+  }
+}
+
+/* piscada da linha premiada */
+@keyframes slot-win-flash {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ============================================================
+   COMEMORAÇÃO (botão da Home e tela de sorteio)
+   ============================================================ */
+
+/* tremida do troféu no sorteio */
+@keyframes jackpot-shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  15% {
+    transform: translate3d(-9px, 4px, 0) rotate(-0.6deg);
+  }
+  30% {
+    transform: translate3d(9px, -4px, 0) rotate(0.6deg);
+  }
+  45% {
+    transform: translate3d(-6px, -3px, 0) rotate(-0.4deg);
+  }
+  60% {
+    transform: translate3d(6px, 3px, 0) rotate(0.4deg);
+  }
+  80% {
+    transform: translate3d(-3px, 1px, 0) rotate(-0.2deg);
+  }
+}
+
+/* entrada do card do vencedor */
+@keyframes jackpot-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.35) rotate(-10deg);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.14) rotate(3deg);
+  }
+  75% {
+    transform: scale(0.95) rotate(-1.5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* respiração do halo */
+@keyframes jackpot-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+
+/* raios de luz girando bem devagar no fundo */
+@keyframes ired-rays {
+  to {
+    transform: rotate(360deg);
+  }
+}
