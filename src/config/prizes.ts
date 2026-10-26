@@ -1,13 +1,10 @@
-import {
-    Gauge,
-    Headset,
-    Router,
-    ShieldCheck,
-    Wifi,
-    type LucideIcon,
-} from "lucide-react";
-import LogoIredBranco from "../assets/ired/logo-ired-branco.png";
-import LogoIredVermelho from "../assets/ired/logo-ired-vermelho.png";
+import type { LucideIcon } from "lucide-react";
+import CardDataCenter from "../assets/cards/data-center.jpeg";
+import CardRedes from "../assets/cards/redes.jpeg";
+import CardFibraOptica from "../assets/cards/fibra-optica.jpeg";
+import CardLogoIredEmpresas from "../assets/cards/logo-ired-empresas.jpeg";
+import CardSeguranca from "../assets/cards/seguranca.jpeg";
+import CardIredEmpresas from "../assets/cards/ired-empresas.jpeg";
 
 /** figuras dos rolos — quem acerta 3 iguais ganha um brinde da Ired */
 export type Prize = {
@@ -22,52 +19,49 @@ export type Prize = {
     icon?: LucideIcon;
 };
 
+/* os cards já vêm prontos (arte + texto), então ocupam a figura inteira;
+   o `bg` é a cor do card, que aparece enquanto a imagem carrega */
 export const PRIZES: Prize[] = [
     {
-        id: "wifi",
-        label: "Wi-Fi",
-        bg: "#bd0000",
-        icon: Wifi,
-        fg: "#ffffff",
+        id: "data-center",
+        label: "Data Center",
+        bg: "#ffffff",
+        image: CardDataCenter,
+        imageFill: true,
     },
     {
         id: "logo",
-        label: "Logo Ired",
-        bg: "#ffffff",
-        image: LogoIredVermelho,
+        label: "Logo Ired Empresas",
+        bg: "#bd0000",
+        image: CardLogoIredEmpresas,
+        imageFill: true,
     },
     {
-        id: "velocidade",
-        label: "Velocidade",
-        bg: "#8f0000",
-        icon: Gauge,
-        fg: "#ffffff",
-    },
-    {
-        id: "atendimento",
-        label: "Atendimento",
+        id: "redes",
+        label: "Redes escalonáveis e conetividade",
         bg: "#ffffff",
-        icon: Headset,
-        fg: "#bd0000",
+        image: CardRedes,
+        imageFill: true,
     },
     {
         id: "seguranca",
-        label: "Segurança",
+        label: "Segurança integrada",
         bg: "#bd0000",
-        icon: ShieldCheck,
-        fg: "#ffffff",
+        image: CardSeguranca,
+        imageFill: true,
     },
     {
-        id: "roteador",
-        label: "Roteador",
+        id: "fibra-optica",
+        label: "Fibra óptica",
         bg: "#ffffff",
-        icon: Router,
-        fg: "#bd0000",
+        image: CardFibraOptica,
+        imageFill: true,
     },
     {
-        id: "logo-branco",
-        label: "Logo Ired branco",
-        bg: "#5c0000",
-        image: LogoIredBranco,
+        id: "ired-empresas",
+        label: "Ired Empresas",
+        bg: "#bd0000",
+        image: CardIredEmpresas,
+        imageFill: true,
     },
 ];

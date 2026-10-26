@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# projeto Android gerado pela Capacitor (keystore e senha ficam lá dentro)
+android/
